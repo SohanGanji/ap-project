@@ -1,35 +1,53 @@
-
 import { Button } from "@/components/ui/button";
-import { GraduationCap, PiggyBank, Shield, Users } from "lucide-react";
+import { GraduationCap, Shield, PiggyBank, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <div className="container mx-auto px-4 py-16 flex flex-col items-center text-center">
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-        Learn Smart Money Management
-        <br />
-        Under Safe Guidance
-      </h1>
-      <p className="text-xl text-gray-600 mb-8 max-w-2xl">
-        A safe and engaging platform where students can learn about finances with
-        parental oversight and guidance.
-      </p>
-      <div className="flex flex-col sm:flex-row gap-4 mb-12">
-        <Button size="lg" className="bg-purple-500 hover:bg-purple-600" asChild>
-          <Link to="/student-login">
-            <GraduationCap className="mr-2 h-5 w-5" />
-            Start Learning
-          </Link>
-        </Button>
-        <Button size="lg" variant="outline" asChild>
-          <Link to="/parent-login">
-            <Shield className="mr-2 h-5 w-5" />
-            Parent Dashboard
-          </Link>
-        </Button>
+    <div className="container mx-auto px-4 py-16">
+      <div className="flex flex-col lg:flex-row gap-12 items-center">
+        <div className="flex-1 space-y-8 text-center lg:text-left">
+          <div className="space-y-4">
+            <div className="inline-block p-2 bg-purple-100 rounded-lg">
+              <GraduationCap className="h-8 w-8 text-purple-500" />
+            </div>
+            <h2 className="text-4xl font-bold text-gray-800">
+              Start Your Financial Journey
+            </h2>
+            <p className="text-xl text-gray-600">
+              Learn smart money management through fun, interactive lessons designed just for you!
+            </p>
+          </div>
+          <Button size="lg" className="bg-purple-500 hover:bg-purple-600 transform hover:scale-105 transition-all" asChild>
+            <Link to="/student-login">
+              <GraduationCap className="mr-2 h-5 w-5" />
+              Start Learning Now
+            </Link>
+          </Button>
+        </div>
+
+        <div className="flex-1 space-y-6 p-6 bg-gray-50 rounded-lg text-center lg:text-left">
+          <div className="space-y-4">
+            <div className="inline-block p-2 bg-gray-200 rounded-lg">
+              <Shield className="h-6 w-6 text-gray-600" />
+            </div>
+            <h3 className="text-2xl font-semibold text-gray-700">
+              For Parents
+            </h3>
+            <p className="text-gray-600">
+              Monitor and guide your child's financial education journey
+            </p>
+          </div>
+          <Button variant="outline" size="lg" className="border-gray-300" asChild>
+            <Link to="/parent-login">
+              <Shield className="mr-2 h-5 w-5" />
+              Parent Dashboard
+            </Link>
+          </Button>
+        </div>
       </div>
-      <div className="grid md:grid-cols-3 gap-8 text-left">
+
+      <div className="grid md:grid-cols-3 gap-8 mt-16">
         <FeatureCard
           icon={<PiggyBank className="h-8 w-8 text-purple-500" />}
           title="Smart Saving"
