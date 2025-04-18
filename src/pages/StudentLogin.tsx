@@ -29,6 +29,14 @@ const StudentLogin = () => {
                 Login
               </Button>
             </form>
+            <div className="text-center mt-4">
+              <p className="text-sm text-gray-600">
+                Don't have an account?{" "}
+                <Link to="/student-signup" className="text-purple-500 hover:underline">
+                  Sign Up
+                </Link>
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
