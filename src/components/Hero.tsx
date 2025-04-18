@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { PiggyBank, Shield } from "lucide-react";
+import { GraduationCap, PiggyBank, Shield, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
