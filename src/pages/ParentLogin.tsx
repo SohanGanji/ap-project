@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Shield } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -24,6 +24,8 @@ const registerSchema = z.object({
 });
 
 const ParentLogin = () => {
+  const navigate = useNavigate();
+  
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -45,10 +47,12 @@ const ParentLogin = () => {
 
   const onLogin = (values: z.infer<typeof loginSchema>) => {
     console.log("Login values:", values);
+    navigate("/parent-oversight");
   };
 
   const onRegister = (values: z.infer<typeof registerSchema>) => {
     console.log("Register values:", values);
+    navigate("/parent-oversight");
   };
 
   return (
