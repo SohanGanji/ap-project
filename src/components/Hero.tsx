@@ -1,5 +1,6 @@
+
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Shield, PiggyBank, Users } from "lucide-react";
+import { GraduationCap, Shield, PiggyBank, Users, Layers } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
@@ -52,16 +53,19 @@ const Hero = () => {
           icon={<PiggyBank className="h-8 w-8 text-purple-500" />}
           title="Smart Saving"
           description="Learn fundamental saving strategies and watch your money grow"
+          link="/smart-saving"
         />
         <FeatureCard
           icon={<Shield className="h-8 w-8 text-purple-500" />}
           title="Parent Oversight"
           description="Parents can monitor progress and guide financial decisions"
+          link="/parent-oversight"
         />
         <FeatureCard
           icon={<Users className="h-8 w-8 text-purple-500" />}
           title="Interactive Learning"
           description="Engaging lessons and real-world financial scenarios"
+          link="/interactive-learning"
         />
       </div>
     </div>
@@ -72,17 +76,21 @@ const FeatureCard = ({
   icon,
   title,
   description,
+  link,
 }: {
   icon: React.ReactNode;
   title: string;
   description: string;
+  link: string;
 }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border">
-      <div className="mb-4">{icon}</div>
-      <h3 className="text-xl font-semibold mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-    </div>
+    <Link to={link}>
+      <div className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+        <div className="mb-4">{icon}</div>
+        <h3 className="text-xl font-semibold mb-2">{title}</h3>
+        <p className="text-gray-600">{description}</p>
+      </div>
+    </Link>
   );
 };
 
