@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -29,22 +28,27 @@ const spendingData = [
 const SmartSaving = () => {
   const [timeFilter, setTimeFilter] = useState("all");
   
-  // Calculate total balance
   const totalBalance = transactions.reduce((total, transaction) => {
     return transaction.type === "income" 
       ? total + transaction.amount 
       : total - transaction.amount;
   }, 0);
 
-  // Calculate spent amount
   const totalSpent = transactions
     .filter(t => t.type === "expense")
     .reduce((total, t) => total + t.amount, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSIjYzdjN2M3Ii8+PC9nPjwvc3ZnPg==')] opacity-5" />
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute right-1/4 top-1/4 w-64 h-64 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+        <div className="absolute left-1/3 bottom-1/3 w-64 h-64 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+        <div className="absolute right-1/3 bottom-1/4 w-64 h-64 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
+      </div>
+
       <Header />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 relative">
         <div className="flex items-center mb-6">
           <GraduationCap className="h-8 w-8 text-purple-500 mr-2" />
           <h1 className="text-3xl font-bold">Smart Saving</h1>
@@ -89,7 +93,7 @@ const SmartSaving = () => {
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
-          <Card className="md:col-span-2">
+          <Card className="md:col-span-2 overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Transaction History</CardTitle>
               <Select defaultValue={timeFilter} onValueChange={setTimeFilter}>
@@ -104,7 +108,7 @@ const SmartSaving = () => {
                 </SelectContent>
               </Select>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -136,31 +140,32 @@ const SmartSaving = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="h-fit">
             <CardHeader>
               <CardTitle>Spending Categories</CardTitle>
             </CardHeader>
             <CardContent>
-              <ChartContainer
-                config={{
-                  Food: { color: "#8B5CF6" },
-                  Entertainment: { color: "#F97316" },
-                  Savings: { color: "#10B981" },
-                  School: { color: "#0EA5E9" },
-                  Other: { color: "#6B7280" },
-                }}
-                className="h-80"
-              >
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={spendingData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Bar dataKey="amount" fill="var(--color-Food)" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </ChartContainer>
+              <div className="h-[300px] w-full">
+                <ChartContainer
+                  config={{
+                    Food: { color: "#8B5CF6" },
+                    Entertainment: { color: "#F97316" },
+                    Savings: { color: "#10B981" },
+                    School: { color: "#0EA5E9" },
+                    Other: { color: "#6B7280" },
+                  }}
+                >
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={spendingData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="amount" fill="var(--color-Food)" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </div>
             </CardContent>
           </Card>
         </div>
