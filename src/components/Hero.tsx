@@ -49,48 +49,34 @@ const Hero = () => {
       </div>
 
       <div className="grid md:grid-cols-3 gap-8 mt-16">
-        <FeatureCard
-          icon={<PiggyBank className="h-8 w-8 text-purple-500" />}
-          title="Smart Saving"
-          description="Learn fundamental saving strategies and watch your money grow"
-          link="/smart-saving"
-        />
-        <FeatureCard
-          icon={<Shield className="h-8 w-8 text-purple-500" />}
-          title="Parent Oversight"
-          description="Parents can monitor progress and guide financial decisions"
-          link="/parent-oversight"
-        />
-        <FeatureCard
-          icon={<Users className="h-8 w-8 text-purple-500" />}
-          title="Interactive Learning"
-          description="Engaging lessons and real-world financial scenarios"
-          link="/interactive-learning"
-        />
+        <div className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+          <div className="mb-4"><PiggyBank className="h-8 w-8 text-purple-500" /></div>
+          <h3 className="text-xl font-semibold mb-2">Smart Saving</h3>
+          <p className="text-gray-600">Learn fundamental saving strategies and watch your money grow</p>
+          <Button variant="link" className="px-0 mt-2" asChild>
+            <Link to="/smart-saving">Learn more</Link>
+          </Button>
+        </div>
+        
+        <div className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+          <div className="mb-4"><Shield className="h-8 w-8 text-purple-500" /></div>
+          <h3 className="text-xl font-semibold mb-2">Parent Oversight</h3>
+          <p className="text-gray-600">Parents can monitor progress and guide financial decisions</p>
+          <Button variant="link" className="px-0 mt-2" asChild>
+            <Link to="/parent-oversight">Learn more</Link>
+          </Button>
+        </div>
+        
+        <div className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+          <div className="mb-4"><Users className="h-8 w-8 text-purple-500" /></div>
+          <h3 className="text-xl font-semibold mb-2">Interactive Learning</h3>
+          <p className="text-gray-600">Engaging lessons and real-world financial scenarios</p>
+          <Button variant="link" className="px-0 mt-2" asChild>
+            <Link to="/interactive-learning">Learn more</Link>
+          </Button>
+        </div>
       </div>
     </div>
-  );
-};
-
-const FeatureCard = ({
-  icon,
-  title,
-  description,
-  link,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  link: string;
-}) => {
-  return (
-    <Link to={link}>
-      <div className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
-        <div className="mb-4">{icon}</div>
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-gray-600">{description}</p>
-      </div>
-    </Link>
   );
 };
 
