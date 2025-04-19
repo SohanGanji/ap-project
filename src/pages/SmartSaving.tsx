@@ -1,12 +1,15 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { GraduationCap, BadgeDollarSign, TrendingDown, TrendingUp } from "lucide-react";
+import { GraduationCap, BadgeDollarSign, TrendingDown, TrendingUp, Save } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import Header from "@/components/Header";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const transactions = [
   { id: 1, date: "2025-04-18", description: "Saved from allowance", amount: 10, type: "income" },
@@ -27,6 +30,7 @@ const spendingData = [
 
 const SmartSaving = () => {
   const [timeFilter, setTimeFilter] = useState("all");
+  const { toast } = useToast();
   
   const totalBalance = transactions.reduce((total, transaction) => {
     return transaction.type === "income" 
@@ -37,6 +41,21 @@ const SmartSaving = () => {
   const totalSpent = transactions
     .filter(t => t.type === "expense")
     .reduce((total, t) => total + t.amount, 0);
+
+  const handleSave = () => {
+    // In a real app, this would save to a database or localStorage
+    localStorage.setItem('smartSavingData', JSON.stringify({
+      transactions,
+      spendingData,
+      timeFilter
+    }));
+    
+    toast({
+      title: "Data saved!",
+      description: "Your financial information has been saved successfully.",
+      duration: 3000,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 relative overflow-hidden">
@@ -49,9 +68,18 @@ const SmartSaving = () => {
 
       <Header />
       <div className="container mx-auto px-4 py-8 relative">
-        <div className="flex items-center mb-6">
-          <GraduationCap className="h-8 w-8 text-purple-500 mr-2" />
-          <h1 className="text-3xl font-bold">Smart Saving</h1>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <GraduationCap className="h-8 w-8 text-purple-500 mr-2" />
+            <h1 className="text-3xl font-bold">Smart Saving</h1>
+          </div>
+          <Button 
+            onClick={handleSave} 
+            className="bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2"
+          >
+            <Save className="h-4 w-4" />
+            Save Progress
+          </Button>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -93,7 +121,7 @@ const SmartSaving = () => {
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
-          <Card className="md:col-span-2 overflow-hidden">
+          <Card className="md:col-span-2">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Transaction History</CardTitle>
               <Select defaultValue={timeFilter} onValueChange={setTimeFilter}>
@@ -108,35 +136,37 @@ const SmartSaving = () => {
                 </SelectContent>
               </Select>
             </CardHeader>
-            <CardContent className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Type</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {transactions.map((transaction) => (
-                    <TableRow key={transaction.id}>
-                      <TableCell>{transaction.date}</TableCell>
-                      <TableCell>{transaction.description}</TableCell>
-                      <TableCell>${transaction.amount.toFixed(2)}</TableCell>
-                      <TableCell>
-                        <span className={`inline-flex items-center ${transaction.type === "income" ? "text-green-500" : "text-red-500"}`}>
-                          {transaction.type === "income" ? 
-                            <TrendingUp className="h-4 w-4 mr-1" /> : 
-                            <TrendingDown className="h-4 w-4 mr-1" />
-                          }
-                          {transaction.type}
-                        </span>
-                      </TableCell>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Description</TableHead>
+                      <TableHead>Amount</TableHead>
+                      <TableHead>Type</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {transactions.map((transaction) => (
+                      <TableRow key={transaction.id}>
+                        <TableCell>{transaction.date}</TableCell>
+                        <TableCell>{transaction.description}</TableCell>
+                        <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+                        <TableCell>
+                          <span className={`inline-flex items-center ${transaction.type === "income" ? "text-green-500" : "text-red-500"}`}>
+                            {transaction.type === "income" ? 
+                              <TrendingUp className="h-4 w-4 mr-1" /> : 
+                              <TrendingDown className="h-4 w-4 mr-1" />
+                            }
+                            {transaction.type}
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
 
@@ -145,7 +175,7 @@ const SmartSaving = () => {
               <CardTitle>Spending Categories</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px] w-full">
+              <div className="h-[300px]">
                 <ChartContainer
                   config={{
                     Food: { color: "#8B5CF6" },
